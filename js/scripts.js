@@ -1,6 +1,21 @@
+function Pokemon(name, HP, height, types) {
+  this.name = name;
+  this.HP = HP;
+  this.height = height;
+  this.types = types;
+}
+
 let pokemonList = [
-{ name: 'Marill', HP: 70, height: 0.4, types: ['water', 'fairy']},
-{ name: 'Beedrill', HP: 65, height: 1, types: ['bug', 'poison']},
-{ name: 'Squirtle', HP: 44, height: 0.5, types: ['water', 'poison']},
-{ name: 'Psyduck', HP: 50, height: 0.8, types: ['water', 'fairy']},
+  new Pokemon('Marill', 70, 0.4, ['water', 'fairy']),
+  new Pokemon('Beedrill', 65, 1.1, ['bug', 'poison']),
+  new Pokemon('Squirtle', 44, 2, ['water', 'poison']),
+  new Pokemon('Psyduck', 50, 0.8, ['water', 'fairy']),
 ];
+
+for (let i=0; i < pokemonList.length; i++){
+  if (pokemonList[i].height <1){
+    document.write('<p>' + pokemonList[i].name + ' (height: ' + pokemonList[i].height + ') -- what a big pokemon');
+  } else {
+    document.write('<p>' + pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')');
+  }
+}
