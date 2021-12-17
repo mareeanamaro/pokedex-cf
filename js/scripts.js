@@ -18,8 +18,13 @@ let pokemonRepository = (function () {
 
   //first i will create the functions separately to make sure code is tidy
 
-  function add(){
-    pokemonList.push(pokemon);
+  function add(pokemon){
+    if (typeof pokemon === 'object')  {
+      pokemonList.push(pokemon);
+    }
+    else {
+      console.log('This pokémon is not an object');
+    }
   }
 
   function getAll() {
