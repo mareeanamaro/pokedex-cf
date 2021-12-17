@@ -12,10 +12,12 @@ let pokemonList = [
   new Pokemon('Psyduck', 50, 0.8, ['water', 'fairy']),
 ];
 
-for (let i=0; i < pokemonList.length; i++){
-  if (pokemonList[i].height > 1.5){
-    document.write('<p>' + pokemonList[i].name + ' (height: ' + pokemonList[i].height + ') -- what a big pokémon!');
+// I have replaced the for loop with a forEach loop to print the pokémon list
+
+pokemonList.forEach(function(pokemon) {
+  if (pokemon.height > 1.5){
+    document.write('<p>' + pokemon.name + ' (height: ' + pokemon.height + ') -- what a big pokémon!');
   } else {
-    document.write('<p>' + pokemonList[i].name + ' (height: ' + pokemonList[i].height + ')');
+    document.write('<p>' + pokemon.name + ' (height: ' + pokemon.height + ')');
   }
-}
+});
