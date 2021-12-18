@@ -9,7 +9,7 @@ let pokemonRepository = (function () {
     this.types = types;
   }
   //the pokémon array is below
-  let pokemonList = [
+  let pokemonArray = [
     new Pokemon('Marill', 70, 0.4, ['water', 'fairy']),
     new Pokemon('Beedrill', 65, 1.1, ['bug', 'poison']),
     new Pokemon('Squirtle', 44, 2, ['water', 'poison']),
@@ -18,34 +18,64 @@ let pokemonRepository = (function () {
 
   //first i will create the functions separately to make sure code is tidy
 
+  // create a function to add pokemon to the array
   function add(pokemon){
-    if (typeof pokemon === 'object')  {
-      pokemonList.push(pokemon);
+    // the add function should only work if we are trying to add an object
+    if (pokemon && typeof pokemon === 'object')  {
+      pokemonArray.push(pokemon);
     }
     else {
       console.log('This pokémon is not an object');
     }
   }
 
+  //create a function to show the pokemons in a list of buttons
+  function addListItem(pokemon) {
+
+    // create a new variable that selects the pokemon list node
+    let pokemonList = document.querySelector('.pokemon-list');
+
+    // create list items and corresponding buttons
+    let listItem = document.createElement('li');
+    let pokemonButton = document.createElement('button');
+
+    // make the button display the name of the pokemon
+    pokemonButton.innerText = pokemon.name;
+
+    // add css to the buttons
+    pokemonButton.classList.add('list-button');
+
+    // append the buttons to the list items and the list items to the list itself
+    listItem.appendChild(pokemonButton);
+    pokemonList.appendChild(listItem);
+
+    //add an event listener to the addListItem function
+    pokemonButton.addEventListener('click', function() {
+      showDetails(pokemon);
+    });
+  }
+  // create a function to show the details of each pokemon
+  function showDetails(pokemon) {
+    console.log(pokemon);
+  }
+
+  // create a function that returns the array
   function getAll() {
-    return pokemonList;
+    return pokemonArray;
   }
 
   //next i will create the return object and assign the keys as public functions
 
   return {
     add: add,
+    addListItem: addListItem,
     getAll: getAll
   };
 
 })();
 
-// I have replaced the for loop with a forEach loop and updated the loop with the new pokemonRepository IIFE
+// the forEach loop below is returning the repository by calling getAll and making it appear as a list of buttons by calling addListItem
 
 pokemonRepository.getAll().forEach(function(pokemon) {
-  if (pokemon.height > 1.5){
-    document.write('<p>' + pokemon.name + ' (height: ' + pokemon.height + ') -- what a big pokémon!');
-  } else {
-    document.write('<p>' + pokemon.name + ' (height: ' + pokemon.height + ')');
-  }
+  pokemonRepository.addListItem(pokemon);
 });
