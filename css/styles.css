@@ -22,3 +22,46 @@ h1 {
 p {
   font-size: 1em;
 }
+
+ul{
+  /* remove the bullet points*/
+  list-style-type: none;
+}
+
+.list-button {
+  /* removes the browser default border */
+  border: none;
+  display: inline-block;
+  text-align: center;
+
+  /* take the font from the outer container, in this case the body container */
+  font-family: inherit;
+  background-color: #fff;
+  color: #bfa8f0 ;
+  text-decoration: none;
+
+  /* add spacing to the button and round the corners */
+  margin: 0.3em;
+  padding: 1em;
+  border-radius: 3px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+
+  /* give all buttons the same width */
+  width: 50%;
+}
+
+@media all and (max-width:750px) {
+
+  body {
+    display: grid;
+    place-content: center;
+    padding: 0 10vw;
+    margin: 0 5vw;
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+}
