@@ -3,6 +3,7 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl='https://pokeapi.co/api/v2/pokemon/?limit=150';
+  let modalContainer = document.querySelector("#modal-container");
 
   // create a function to add pokemon to the array
   function add(pokemon){
@@ -46,7 +47,7 @@ let pokemonRepository = (function () {
     return pokemonList;
   }
 
-  // create a funtion that loads the list
+  // create a function that loads the list
   function loadList() {
     function showLoadingMessage() {
       return 'Loading...'
@@ -65,28 +66,88 @@ let pokemonRepository = (function () {
       console.error(e);
     }
   )
+}
+
+// create a function that loads the detailed data for a given pokémon
+function loadDetails(pokemon) {
+  let url = pokemon.detailsUrl;
+  return fetch(url).then(function (response) {
+    return response.json();
+  }).then(function (details) {
+    pokemon.imageUrl = details.sprites.front_default;
+    pokemon.height = details.height;
+    pokemon.types = details.types;
+  }).catch(function (e) {
+    console.error(e);
+  });
+}
+
+// create a function to show the details of each pokemon
+function showDetails(pokemon) {
+  pokemonRepository.loadDetails(pokemon).then(function () {
+    showModal(pokemon);
+  });
+}
+
+  // now we create the function that will show us the modal
+  function showModal(pokemon) {
+    // clear any html in the modal
+    modalContainer.innerHTML = '';
+    // create a new div
+    let modal = document.createElement('div');
+    // add the modal class to this div
+    modal.classList.add('modal');
+
+    // now let's add the close button
+    let closeButtonElement = document.createElement('button');
+    // we'll add its css class
+    closeButtonElement.classList.add('modal-close');
+    // write the text we want in the button
+    closeButtonElement.innerText = 'close';
+    // tell the app what to do when someone clicks on this button
+    closeButtonElement.addEventListener('click', hideModal);
+
+    //now let's add title and text to the modal
+    let titleElement = document.createElement('h1');
+    titleElement.innerText = pokemon.name;
+
+    let contentElement = document.createElement('p');
+    contentElement.innerText = 'height: ' + pokemon.height;
+
+    let imageElement = document.createElement('img');
+    imageElement.src = pokemon.imageUrl;
+
+    //now let's append these elements to to the modal and modal container
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(contentElement);
+    modal.appendChild(imageElement);
+    modalContainer.appendChild(modal);
+
+    //below we are making the modal container visible via its css class
+    modalContainer.classList.add('is-visible');
   }
 
-  // create a function that loads the detailed data for a given pokémon
-  function loadDetails(item) {
-    let url = item.detailsUrl;
-    return fetch(url).then(function (response) {
-      return response.json();
-    }).then(function (details) {
-      item.imageUrl = details.sprites.front_default;
-      item.height = details.height;
-      item.types = details.types;
-    }).catch(function (e) {
-      console.error(e);
-    });
-  }
+    // it's time to define the function called above to hide the modal
+    function hideModal() {
+      //all it needs to do is apply the css class that makes it invisible
+      modalContainer.classList.remove('is-visible');
+    }
 
-  // create a function to show the details of each pokemon
-  function showDetails(pokemon) {
-    loadDetails(pokemon).then(function(){
-      console.log(pokemon);
+    // let's add the event listener that lets us esc out of the modal
+    window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+      hideModal();
+      }
+      });
+
+
+    modalContainer.addEventListener('click', (e) => {
+      let target = e.target;
+      if (target === modalContainer) {
+        hideModal();
+      }
     });
-  }
 
   //next i will create the return object and assign the keys as public functions
 
@@ -97,14 +158,13 @@ let pokemonRepository = (function () {
     loadList: loadList,
     loadDetails: loadDetails
   };
-
 })();
 
 
 // load the data
 pokemonRepository.loadList().then(function() {
   // the forEach loop below is returning the repository by calling getAll and making it appear as a list of buttons by calling addListItem
-pokemonRepository.getAll().forEach(function(pokemon) {
-  pokemonRepository.addListItem(pokemon);
+  pokemonRepository.getAll().forEach(function(pokemon) {
+    pokemonRepository.addListItem(pokemon);
   });
 });
