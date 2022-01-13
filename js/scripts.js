@@ -3,7 +3,7 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl='https://pokeapi.co/api/v2/pokemon/?limit=150';
-  let modalContainer = document.querySelector("#modal-container");
+  let modal = document.querySelector("#detailsModal");
 
   // create a function to add pokemon to the array
   function add(pokemon){
@@ -24,13 +24,25 @@ let pokemonRepository = (function () {
 
     // create list items and corresponding buttons
     let listItem = document.createElement('li');
+
+    
+    // create the buttons and add the attributes to connect them to the modal
     let pokemonButton = document.createElement('button');
+        pokemonButton.setAttribute('data-target', '#detailsModal');
+        pokemonButton.setAttribute('data-toggle', 'modal');
+
+        //add bootstrap utility class to buttons
+        pokemonButton.classList.add('btn');
+        pokemonButton.classList.add('btn-outline-secondary');
+
+        // add css to the buttons
+        pokemonButton.classList.add('list-button');
+
 
     // make the button display the name of the pokemon
     pokemonButton.innerText = pokemon.name;
 
-    // add css to the buttons
-    pokemonButton.classList.add('list-button');
+
 
     // append the buttons to the list items and the list items to the list itself
     listItem.appendChild(pokemonButton);
@@ -38,7 +50,7 @@ let pokemonRepository = (function () {
 
     //add an event listener to the addListItem function
     pokemonButton.addEventListener('click', function() {
-      showDetails(pokemon);
+      showDetails(pokemon, modal);
     });
   }
 
@@ -76,7 +88,10 @@ function loadDetails(pokemon) {
   }).then(function (details) {
     pokemon.imageUrl = details.sprites.front_default;
     pokemon.height = details.height;
-    pokemon.types = details.types;
+    pokemon.weight = details.weight;
+    pokemon.abilities = details.abilities;
+    pokemon.types = details.types.type;
+
   }).catch(function (e) {
     console.error(e);
   });
@@ -89,65 +104,38 @@ function showDetails(pokemon) {
   });
 }
 
-  // now we create the function that will show us the modal
-  function showModal(pokemon) {
-    // clear any html in the modal
-    modalContainer.innerHTML = '';
-    // create a new div
-    let modal = document.createElement('div');
-    // add the modal class to this div
-    modal.classList.add('modal');
+// let's add the bootstrap modal
 
-    // now let's add the close button
-    let closeButtonElement = document.createElement('button');
-    // we'll add its css class
-    closeButtonElement.classList.add('modal-close');
-    // write the text we want in the button
-    closeButtonElement.innerText = 'close';
-    // tell the app what to do when someone clicks on this button
-    closeButtonElement.addEventListener('click', hideModal);
+function showModal (pokemon) {
 
-    //now let's add title and text to the modal
-    let titleElement = document.createElement('h1');
-    titleElement.innerText = pokemon.name;
+  let modalBody = $('.modal-body');
+  let modalTitle = $('.modal-title');
+  let modalHeader = $('.modal-header');
 
-    let contentElement = document.createElement('p');
-    contentElement.innerText = 'height: ' + pokemon.height;
+ //empty the modal before we start
+  modalTitle.empty();
+  modalBody.empty();
 
-    let imageElement = document.createElement('img');
-    imageElement.src = pokemon.imageUrl;
+  // create the elements we want in the modal
+  let nameElement = $('<h1>' + pokemon.name + '</h1>');
+  let imageElement = $('<img class="modal-img">');
+      imageElement.attr('src', pokemon.imageUrl);
+  let heightElement = $('<p>' + 'Height: ' + pokemon.height + '</p>');
+  let weightElement = $('<p>' + 'Weight: ' + pokemon.weight + '</p>');
+  let typesElement = $('<p>' + 'Types: ' + pokemon.types + '</p>');
+  let abilitiesElement = $('<p>' + 'Abilities: ' + pokemon.abilities + '</p>');
 
-    //now let's append these elements to to the modal and modal container
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(contentElement);
-    modal.appendChild(imageElement);
-    modalContainer.appendChild(modal);
+  // append the elements to the modal
+  modalTitle.append(nameElement);
+  modalBody.append(imageElement);
+  modalBody.append(heightElement);
+  modalBody.append(weightElement);
+  modalBody.append(typesElement);
+  modalBody.append(abilitiesElement);
 
-    //below we are making the modal container visible via its css class
-    modalContainer.classList.add('is-visible');
-  }
+  $('#detailsmodal').modal();
 
-    // it's time to define the function called above to hide the modal
-    function hideModal() {
-      //all it needs to do is apply the css class that makes it invisible
-      modalContainer.classList.remove('is-visible');
-    }
-
-    // let's add the event listener that lets us esc out of the modal
-    window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-      hideModal();
-      }
-      });
-
-
-    modalContainer.addEventListener('click', (e) => {
-      let target = e.target;
-      if (target === modalContainer) {
-        hideModal();
-      }
-    });
+}
 
   //next i will create the return object and assign the keys as public functions
 
@@ -156,7 +144,8 @@ function showDetails(pokemon) {
     addListItem: addListItem,
     getAll: getAll,
     loadList: loadList,
-    loadDetails: loadDetails
+    loadDetails: loadDetails,
+    showDetails: showDetails
   };
 })();
 
