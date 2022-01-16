@@ -1,1 +1,4 @@
 .DS_Store
+.eslintignore\
+.eslintignore
+.stylelintrc
