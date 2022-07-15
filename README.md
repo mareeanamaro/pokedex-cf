@@ -18,7 +18,7 @@ Javascript ES6, ESLint rules, jQuery, Bootstrap
 [Pokémon API](https://pokeapi.co/)
 
 ## Links
-**Repository:** https://github.com/mareeanamaro/pokedex-cf
-**Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
+* **Repository:** https://github.com/mareeanamaro/pokedex-cf
+* **Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
 
 
