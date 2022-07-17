@@ -13,14 +13,14 @@ This app lists out the 150 first gen Pokémon and allows the user to access more
 
 ![Screenshot showing the Pokédex and an open modal with the Pokémon details.](./screenshot.png)
 
-## Project Dependencies
+## Technologies Used
 Javascript ES6, ESLint rules, jQuery, Bootstrap
 
 ## API used:
 [Pokémon API](https://pokeapi.co/)
 
 ## Links
-**Repository:** https://github.com/mareeanamaro/pokedex-cf
-**Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
+* ***Repository:** https://github.com/mareeanamaro/pokedex-cf
+* ***Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
 
 
