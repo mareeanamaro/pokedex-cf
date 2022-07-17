@@ -1,4 +1,6 @@
-# Project Description
+# Pokédex
+
+## Project Description
 This project was part of the Career Foundry Full Stack Web Development course. It's a small web application with HTML, CSS, and JavaScript that loads data from an external API and enables the viewing of data points in detail.
 
 This app lists out the 150 first gen Pokémon and allows the user to access more details about each one.
@@ -18,7 +20,7 @@ Javascript ES6, ESLint rules, jQuery, Bootstrap
 [Pokémon API](https://pokeapi.co/)
 
 ## Links
-* **Repository:** https://github.com/mareeanamaro/pokedex-cf
-* **Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
+**Repository:** https://github.com/mareeanamaro/pokedex-cf
+**Live link:** https://mareeanamaro.github.io/pokedex-cf/ 
 
 
